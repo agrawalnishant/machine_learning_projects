@@ -66,7 +66,7 @@ def split_data(city_data):
     ###################################
     ### Step 2. YOUR CODE GOES HERE ###
     ###################################
-    X_train, X_test, y_train, y_test = cross_validation.train_test_split(X, y, test_size=0.1, random_state=0)
+    X_train, X_test, y_train, y_test = cross_validation.train_test_split(X, y, test_size=0.3, random_state=0)
 
     return X_train, y_train, X_test, y_test
 
@@ -190,7 +190,9 @@ def fit_predict_model(city_data):
 
     # Fit the learner to the training data to obtain the best parameter set
     print "Final Model: "
-    print gs_estimator.fit(X, y)
+    estmtr= gs_estimator.fit(X, y)
+    print estmtr
+    print "Best model parameter:  " + str(estmtr.best_params_)
     
     # Use the model to predict the output of a particular sample
     x = [11.95, 0.00, 18.100, 0, 0.6590, 5.6090, 90.00, 1.385, 24, 680.0, 20.20, 332.09, 12.13]
