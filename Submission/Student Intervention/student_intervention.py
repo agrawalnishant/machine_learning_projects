@@ -16,26 +16,28 @@
 # 
 # _To execute a code cell, click inside it and press **Shift+Enter**._
 
-# In[809]:
+# In[129]:
 
-from __future__ import division
+get_ipython().magic(u'matplotlib inline')
 # Import libraries
 import numpy as np
 import pandas as pd
 import matplotlib
 import matplotlib.pyplot as plt
 from time import time
-
+from __future__ import division
 from sklearn import cross_validation
 
 from sklearn.metrics import f1_score
+import warnings
+warnings.filterwarnings('ignore')
 
 pd.options.display.float_format = '{:.5f}'.format
 pd.set_option('display.max_columns', 500)
 pd.set_option('display.width', 1000)
 
 
-# In[810]:
+# In[130]:
 
 # Read student data
 student_data = pd.read_csv("student-data.csv")
@@ -52,7 +54,7 @@ print "Student data read successfully!"
 # 
 # _Use the code block below to compute these values. Instructions/steps are marked using **TODO**s._
 
-# In[811]:
+# In[131]:
 
 # TODO: Compute desired values - replace each '?' with an appropriate expression/function call
 n_students = student_data.shape[0]
@@ -76,7 +78,7 @@ print "Graduation rate of the class: {:.2f}%".format(grad_rate)
 # Let's first separate our data into feature and target columns, and see if any features are non-numeric.<br/>
 # **Note**: For this dataset, the last column (`'passed'`) is the target or label we are trying to predict.
 
-# In[812]:
+# In[132]:
 
 # Extract feature (X) and target (y) columns
 feature_cols = list(student_data.columns[:-1])  # all columns but last are features
@@ -98,7 +100,7 @@ print X_all.head()  # print the first 5 rows
 # 
 # These generated columns are sometimes called _dummy variables_, and we will use the [`pandas.get_dummies()`](http://pandas.pydata.org/pandas-docs/stable/generated/pandas.get_dummies.html?highlight=get_dummies#pandas.get_dummies) function to perform this transformation.
 
-# In[813]:
+# In[133]:
 
 # Preprocess feature columns
 def preprocess_features(X):
@@ -127,7 +129,7 @@ print "Processed feature columns ({}):-\n{}".format(len(X_all.columns), list(X_a
 # 
 # So far, we have converted all _categorical_ features into numeric values. In this next step, we split the data (both features and corresponding labels) into training and test sets.
 
-# In[814]:
+# In[134]:
 
 # First, decide how many training vs test samples you want
 num_all = student_data.shape[0]  # same as len(student_data)
@@ -155,7 +157,7 @@ print "Test set: {} samples".format(X_test.shape[0])
 # 
 # Note: You need to produce 3 such tables - one for each model.
 
-# In[815]:
+# In[135]:
 
 # Train a model
 import time
@@ -164,7 +166,6 @@ def train_classifier(clf, X_train, y_train):
     print "Training {}...".format(clf.__class__.__name__)
     start = time.time()
     clf.fit(X_train, y_train)
-    print 'm'*80
     end = time.time()
     clf_train_time=end-start
     return clf_train_time
@@ -179,7 +180,7 @@ clf_train_time=train_classifier(clf, X_train, y_train)  # note: using entire tra
 print "classifier: ", clf
 
 
-# In[816]:
+# In[136]:
 
 # Predict on training set and compute F1 score
 from sklearn.metrics import f1_score
@@ -197,14 +198,14 @@ predict_all_train_time, predict_all_train_f1score = predict_labels(clf, X_train,
 print "Predict Training labels Time taken: {:.5f}, F1 Score : {:.5f}".format(predict_all_train_time,predict_all_train_f1score)
 
 
-# In[817]:
+# In[137]:
 
 # Predict on test data
 predict_all_test_time, predict_all_test_f1score=predict_labels(clf, X_test, y_test)
 print "Predict Test labels Time taken: {:.5f}, F1 Score : {:.5f}".format(predict_all_test_time,predict_all_test_f1score)
 
 
-# In[818]:
+# In[138]:
 
 # Train and predict using different training set sizes
 def train_predict(clf, X_train, y_train, X_test, y_test):
@@ -233,7 +234,7 @@ project_data_matrix=pd.DataFrame(columns=['50','100','150','200','250','300'],
 
 
 
-# In[819]:
+# In[139]:
 
 # TODO: Run the helper function above for desired subsets of training data
 # Note: Keep the test set constant
@@ -256,7 +257,7 @@ print project_data_matrix
 print '-'*80  
 
 
-# In[820]:
+# In[140]:
 
 # TODO: Train and predict using two other models
 # Clf #2 uses Boosting: AdaBoost
@@ -286,7 +287,7 @@ print project_data_matrix
 print '-'*80  
 
 
-# In[821]:
+# In[141]:
 
 # TODO: Train and predict using two other models
 # Clf #3 uses bagging:  Random Forest
@@ -313,7 +314,7 @@ print project_data_matrix
 print '-'*80 
 
 
-# In[822]:
+# In[142]:
 
 # Display results data below.
 print "\n",'-'*80
@@ -326,6 +327,8 @@ plt.plot(test_f1score_time_matrix['Trng_size'].values,test_f1score_time_matrix['
 plt.plot(test_f1score_time_matrix['Trng_size'].values,test_f1score_time_matrix['TST_F1_AB'].values,label='AB')
 plt.plot(test_f1score_time_matrix['Trng_size'].values,test_f1score_time_matrix['TST_F1_RF'].values,label='RF')
 plt.legend(loc='lower right', shadow=True)
+plt.ylabel("F1 Scores for Test Set")
+plt.xlabel("Size of Training set")
 plt.show()
 
 
@@ -337,7 +340,60 @@ plt.show()
 # - Fine-tune the model. Use Gridsearch with at least one important parameter tuned and with at least 3 settings. Use the entire training set for this.
 # - What is the model's final F<sub>1</sub> score?
 
-# In[823]:
+# In[143]:
 
 # TODO: Fine-tune your model and report the best F1 score
 
+# Tune AdaBoost
+selected_model_matrix=pd.DataFrame(columns=['50','100','150','200','250','300'],
+                                 index=['Training time (secs)','Prediction time (secs)',
+                                        'F1 score for training set',
+                                        'F1 score for test set'])
+learning_rate=0.70
+for i in range(1,7):
+    # Creating a new instance of DecisionTree Classifier to avoid any mixup with previous instance.
+    dt_clf=DecisionTreeClassifier(presort=True, min_samples_leaf=1,max_depth=1,max_features=26)
+    clf = AdaBoostClassifier(dt_clf,algorithm="SAMME",n_estimators=20,learning_rate=learning_rate)
+    train_time, predict_test_time, predict_train_score, predict_test_score=train_predict(clf, 
+                                                  X_train[0:(50*i)],y_train[0:(50*i)],
+                                                  X_test,y_test)
+    selected_model_matrix.iloc[0,i-1]=train_time
+    selected_model_matrix.iloc[1,i-1]=predict_test_time
+    selected_model_matrix.iloc[2,i-1]=predict_train_score
+    selected_model_matrix.iloc[3,i-1]=predict_test_score
+    
+print "\n",'-'*80  
+print "Selected Model (Ada Boost) data matrix"
+print selected_model_matrix
+print '-'*80  
+
+
+# In[145]:
+
+from sklearn import grid_search
+from scipy.stats import randint as sp_randint
+
+from sklearn.grid_search import GridSearchCV, RandomizedSearchCV
+
+param_dist = {"max_depth": [1,2,3],
+              "max_features": [30,48],
+              "min_samples_split": [1,2],
+              "min_samples_leaf": [1,2],
+              "bootstrap": [True, False],
+              "criterion": ["gini", "entropy"]}
+
+# build a classifier
+clf = RandomForestClassifier(n_estimators=10)
+
+# run grid search
+random_search = GridSearchCV(clf, param_grid=param_dist,cv=4)
+gs_estimator=random_search.fit(X_train,y_train)
+
+print "Best model parameter:  " + str(gs_estimator.best_params_)
+y_pred=random_search.predict(X_test)
+#print y_pred
+gs_f1score=f1_score(y_test, y_pred,pos_label="yes")
+print "f1 score: {:.5f}".format(gs_f1score)
+
+
+# ###### 
