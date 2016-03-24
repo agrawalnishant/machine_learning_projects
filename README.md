@@ -13,16 +13,14 @@ of this program.
 
 Dependency
 ----------
-
--   Python 2.7
-
--   Numpy 1.10.1
-
--   Scikit-Learn 0.17
-
--   Matplotlib 1.5.1
-
--   Seaborn 0.7.0
+-   [Anaconda](https://www.continuum.io/why-anaconda)
+-   [Python 2.7](https://www.python.org/download/releases/2.7/)
+-   [Numpy 1.10.1](http://www.numpy.org/)
+-   [Pandas 0.8.0](http://pandas.pydata.org/)
+-   [Scikit-Learn 0.17](http://scikit-learn.org/stable/)
+-   [Matplotlib 1.5.1](http://matplotlib.org/)
+-   [Seaborn 0.7.0](https://stanford.edu/~mwaskom/software/seaborn/)
+-   [LaTex](https://latex-project.org/ftp.html)
 
 Projects
 --------
