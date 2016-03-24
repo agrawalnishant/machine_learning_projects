@@ -29,43 +29,33 @@ Projects
 
 ### Supervised Learning
 
--   #### Boston Housing Prices
 
-    This project uses Boston Housing Data to predict price of a house, given its
-    other features. First, a Cross Validation is performed, and then Decision
-    Tree is used with Grid Search to create a price estimation model. Different
-    training sizes were evaluated, and variance of prediction error was ploted
-    to select best training size. Best results were found when **Depth of Tree
-    was 5**.
+#### Boston Housing Prices
+This project uses Boston Housing Data to predict price of a house, given its other features. First, a Cross Validation is performed, and then Decision Tree is used with Grid Search to create a price estimation model. Different training sizes were evaluated, and variance of prediction error was ploted to select best training size. Best results were found when **Depth of Tree was 5**.
 
--   #### Student Intervention
+#### Student Intervention
 
-    A classification model is built, with minimal computation cost, to identify
-    students that require intervention to pass their class. This model uses
-    Student's current and past academic records, and details about their life.
-    Such details include informaiton about their schedule and their parents.
+A classification model is built, with minimal computation cost, to identify students that require intervention to pass their class. This model uses Student's current and past academic records, and details about their life. Such details include informaiton about their schedule and their parents.
 
-    Support Vector Classifiction, Bagging, and Boosting algorithms are used to
-    evaluate different models, based on time and memory efficiency, and accuracy
-    scores.
+Support Vector Classifiction, Bagging, and Boosting algorithms are used to evaluate different models, based on time and memory efficiency, and accuracy scores.
 
-    Finally, AdaBoost was selected and tuned for **best accuracy score of 0.83**
+Finally, AdaBoost was selected and tuned for **best accuracy score of 0.83**
 
 ### Unsupervised Learning
-
--   #### Customer Segments
-    A wholesale distributor wants to find the best schedule delivery of products to
+#### Customer Segments
+A wholesale distributor wants to find the best schedule delivery of products to
 its customers (retail shops). First task is to idenitfy different types of
 retail shops, so that delivery methods could be tailored for each group. Second
 task is to model A/B tests to improve delivery satisfaction, and hence sales. 
 
-    Initial exploratory data analysis suggested some trends, that are confirmed by
+Initial exploratory data analysis suggested some trends, that are confirmed by
 Primary Component Analysis (PCA). And then Independent Component Analysis (ICA)
 suggests that volume is the primary differentiator.
 
-    Then K-Means and Gaussian Mixed Model (GMM) algorithms are applied to identify
+Then K-Means and Gaussian Mixed Model (GMM) algorithms are applied to identify
 segments in retail shops. ON analysis of these 2 models, GMM is found to be more
 suitable for given problem.
-    GMM model is used to label the data, and prediction scenarios are suggested.
+
+GMM model is used to label the data, and prediction scenarios are suggested.
 Also suggested are A/B test strategies to improve delivery satisfaction for
 retail shops.
