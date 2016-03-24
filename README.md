@@ -28,6 +28,8 @@ Support Vector Classifiction, Bagging, and Boosting algorithms are used to evalu
 Finally, AdaBoost was selected and tuned for **best accuracy score of 0.83**.
 
 
+
+
 ### Unsupervised Learning   
 - #### Customer Segments
 A wholesale distributor wants to find the best schedule delivery of products to its customers (retail shops).
