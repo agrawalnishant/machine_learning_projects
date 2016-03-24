@@ -25,11 +25,7 @@ A classification model is built, with minimal computation cost, to identify stud
 
 Support Vector Classifiction, Bagging, and Boosting algorithms are used to evaluate different models, based on time and memory efficiency, and accuracy scores.
 
-<<<<<<< HEAD
 Finally, AdaBoost was selected and tuned for __best accuracy score of 0.83__ .
-=======
-Finally, AdaBoost was selected and tuned for **best accuracy score of 0.83** .
->>>>>>> origin/master
 
 ### Unsupervised Learning
 - ### Customer Segments
