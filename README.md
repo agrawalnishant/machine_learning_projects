@@ -53,7 +53,7 @@ Primary Component Analysis (PCA). And then Independent Component Analysis (ICA)
 suggests that volume is the primary differentiator.
 
 Then K-Means and Gaussian Mixed Model (GMM) algorithms are applied to identify
-segments in retail shops. ON analysis of these 2 models, GMM is found to be more
+segments in retail shops. On analysis of these 2 models, GMM is found to be more
 suitable for given problem.
 
 GMM model is used to label the data, and prediction scenarios are suggested.
