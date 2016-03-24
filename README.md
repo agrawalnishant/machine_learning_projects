@@ -18,20 +18,17 @@ This repo includes projects done as part of Udacity's Machine Learning NanoDegre
 ### Supervised Learning
 - #### Boston Housing Prices
 This project uses Boston Housing Data to predict price of a house, given its other features. First, a Cross Validation is performed, and then Decision Tree is used with Grid Search to create a price estimation model.
-Different training sizes were evaluated, and variance of prediction error was ploted to select best training size. Best results were found when **Depth of Tree was 5**.
+Different training sizes were evaluated, and variance of prediction error was ploted to select best training size. Best results were found when __Depth of Tree was 5__.
 
 - #### Student Intervention
 A classification model is built, with minimal computation cost, to identify students that require intervention to pass their class. This model uses Student's current and past academic records, and details about their life. Such details include informaiton about their schedule and their parents.
 
 Support Vector Classifiction, Bagging, and Boosting algorithms are used to evaluate different models, based on time and memory efficiency, and accuracy scores.
 
-Finally, AdaBoost was selected and tuned for **best accuracy score of 0.83**.
+Finally, AdaBoost was selected and tuned for __best accuracy score of 0.83__ .
 
-
-
-
-### Unsupervised Learning   
-- #### Customer Segments
+### Unsupervised Learning
+- ### Customer Segments
 A wholesale distributor wants to find the best schedule delivery of products to its customers (retail shops).
 First task is to idenitfy different types of retail shops, so that delivery methods could be tailored for each group.
 Second task is to model A/B tests to improve delivery satisfaction, and hence sales.
