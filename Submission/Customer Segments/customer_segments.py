@@ -79,7 +79,6 @@ ax6.set_ylabel('Delicatessen')
 
 fig = plt.gcf()
 fig.set_size_inches(12, 12)
-#fig.set_size_inches(18.5, 10.5, forward=True)
 plt.show()
 
 
@@ -390,8 +389,7 @@ print ica.components_
 
 print "\n"
 print preprocessing.StandardScaler().fit_transform(ica.components_)
-#print "\n"
-#print ica.mixing_
+
 
 
 # **4)** For each vector in the ICA decomposition, write a sentence or two explaining what sort of object or property it corresponds to. What could these components be used for?
