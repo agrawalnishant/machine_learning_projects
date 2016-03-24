@@ -59,3 +59,8 @@ suitable for given problem.
 GMM model is used to label the data, and prediction scenarios are suggested.
 Also suggested are A/B test strategies to improve delivery satisfaction for
 retail shops.
+
+### License
+
+The content of this repository is licensed under a
+[Creative Commons Attribution License](http://creativecommons.org/licenses/by/3.0/us/)
