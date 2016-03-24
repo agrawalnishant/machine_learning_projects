@@ -25,13 +25,10 @@ A classification model is built, with minimal computation cost, to identify stud
 
 Support Vector Classifiction, Bagging, and Boosting algorithms are used to evaluate different models, based on time and memory efficiency, and accuracy scores.
 
-Finally, AdaBoost was selected and tuned for **best accuracy score of 0.83**.
+Finally, AdaBoost was selected and tuned for **best accuracy score of 0.83** .
 
-
-
-
-### Unsupervised Learning   
-- #### Customer Segments
+### Unsupervised Learning
+- ### Customer Segments
 A wholesale distributor wants to find the best schedule delivery of products to its customers (retail shops).
 First task is to idenitfy different types of retail shops, so that delivery methods could be tailored for each group.
 Second task is to model A/B tests to improve delivery satisfaction, and hence sales.
