@@ -16,14 +16,14 @@ from sklearn import grid_search
 
 
 def load_data():
-    """Load the Boston dataset."""
+    # Load the Boston dataset.
 
     boston = datasets.load_boston()
     return boston
 
 
 def explore_city_data(city_data):
-    """Calculate the Boston housing statistics."""
+    # Calculate the Boston housing statistics.
 
     # Get the labels and features from the housing data
     housing_prices = city_data.target
@@ -58,7 +58,7 @@ def explore_city_data(city_data):
 
 
 def split_data(city_data):
-    """Randomly shuffle the sample set. Divide it into 70 percent training and 30 percent testing data."""
+    # Randomly shuffle the sample set. Divide it into 70 percent training and 30 percent testing data.
 
     # Get the features and labels from the Boston housing data
     X, y = city_data.data, city_data.target
@@ -72,7 +72,7 @@ def split_data(city_data):
 
 
 def performance_metric(label, prediction):
-    """Calculate and return the appropriate error performance metric."""
+    # Calculate and return the appropriate error performance metric.
 
     ###################################
     ### Step 3. YOUR CODE GOES HERE ###
@@ -84,7 +84,7 @@ def performance_metric(label, prediction):
 
 
 def learning_curve(depth, X_train, y_train, X_test, y_test):
-    """Calculate the performance of the model after a set of training data."""
+    # Calculate the performance of the model after a set of training data.
 
     # We will vary the training set size so that we have 50 different sizes
     sizes = np.round(np.linspace(1, len(X_train), 50))
@@ -110,7 +110,7 @@ def learning_curve(depth, X_train, y_train, X_test, y_test):
 
 
 def learning_curve_graph(sizes, train_err, test_err):
-    """Plot training and test error as a function of the training size."""
+    # Plot training and test error as a function of the training size.
 
     pl.figure()
     pl.title('Decision Trees: Performance vs Training Size')
@@ -123,7 +123,7 @@ def learning_curve_graph(sizes, train_err, test_err):
 
 
 def model_complexity(X_train, y_train, X_test, y_test):
-    """Calculate the performance of the model as model complexity increases."""
+    # Calculate the performance of the model as model complexity increases.
 
     print "Model Complexity: "
 
@@ -150,7 +150,7 @@ def model_complexity(X_train, y_train, X_test, y_test):
 
 
 def model_complexity_graph(max_depth, train_err, test_err):
-    """Plot training and test error as a function of the depth of the decision tree learn."""
+    # Plot training and test error as a function of the depth of the decision tree learn.
 
     pl.figure()
     pl.title('Decision Trees: Performance vs Max Depth')
@@ -163,7 +163,7 @@ def model_complexity_graph(max_depth, train_err, test_err):
 
 
 def fit_predict_model(city_data):
-    """Find and tune the optimal model. Make a prediction on housing data."""
+    # Find and tune the optimal model. Make a prediction on housing data.
 
     # Get the features and labels from the Boston housing data
     X, y = city_data.data, city_data.target
@@ -202,9 +202,9 @@ def fit_predict_model(city_data):
 
 
 def main():
-    """Analyze the Boston housing data. Evaluate and validate the
-    performanance of a Decision Tree regressor on the housing data.
-    Fine tune the model to make prediction on unseen data."""
+    # Analyze the Boston housing data.
+    # Evaluate and validate the performanance of a Decision Tree regressor on the housing data.
+    # Fine tune the model to make prediction on unseen data.
 
     # Load data
     city_data = load_data()
