@@ -8,7 +8,7 @@ Overview
 --------
 
 This repo includes projects done as part of Udacity's Machine Learning
-NanoDegree program. Also included are support libraries developed by me, as part
+NanoDegree program. Also included are support libraries developed as part
 of this program.
 
 Dependency
