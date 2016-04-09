@@ -6,7 +6,7 @@ Unsupervised Learning Project
 
 In this directory (`customer_segments/`), run `ipython notebook`, open `customer_segments.ipynb` and follow the instructions.
 
-Note: You need Python 2.7, NumPy, pandas, matplotlib and scikit-learn to work on this notebook.
+Note: You need Python 2.7, NumPy, pandas, matplotlib and scikit-learn to work on this jupyter notebook.
 
 ## Dataset
 
