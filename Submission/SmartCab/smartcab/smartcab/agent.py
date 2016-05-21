@@ -53,8 +53,10 @@ class LearningAgent(Agent):
         reward = self.env.act(self, action)
 
         # TODO: Learn policy based on state, action, reward
-        next_state=self.env.sense(self)
-        self.qt.update(self.next_waypoint, deadline, current_state, action, reward, self, self.env)
+        next_state_value=self.env.sense(self)
+        next_state_deadline=self.env.get_deadline(self)
+        next_state_waypoint=self.planner.next_waypoint()
+        self.qt.update(self.next_waypoint, deadline, current_state, action, reward, next_state_value, next_state_deadline, next_state_waypoint,  self, self.env)
 
 def run():
     """Run the agent for a finite number of trials."""
