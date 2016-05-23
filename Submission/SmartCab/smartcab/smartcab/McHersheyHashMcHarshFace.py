@@ -4,8 +4,8 @@ import pandas as pd
 class HashFunction(object):
     """ Hashing Function to find index based on state"""
 
-    def hash4DState(self, next_waypoint, deadline, current_state):
-        """Find Index into Q-Table, for 4 Dimentions of state: Navigation, Deadline, Traffic, and Light. """
+    def hash4DState(self, next_waypoint,  current_state):
+        """Find Index into Q-Table, for 4 Dimentions of state: Navigation, Traffic, and Light. """
         
         current_state_df=pd.DataFrame(current_state.items())
         
@@ -52,11 +52,11 @@ class HashFunction(object):
         elif next_waypoint == 'left':
             nav_code=3
 
-        return nav_code, deadline, traffic_code,light_code
+        return nav_code,  traffic_code,light_code
 
 
-    def hash5DState(self, action, next_waypoint, deadline, current_state):
-        """Find Index into Q-Table, for 4 Dimentions of state: Navigation, Deadline, Traffic, and Light. """
+    def hash5DState(self, action, next_waypoint,  current_state):
+        """Find Index into Q-Table, for 4 Dimentions of state: Navigation, Traffic, and Light. """
 
         if action == None:
             action_code='AN'
@@ -67,7 +67,7 @@ class HashFunction(object):
         elif action == 'left':
             action_code='DL'
 
-        nav_code, deadline, traffic_code,light_code = self.hash4DState(next_waypoint, deadline, current_state)
+        nav_code,  traffic_code,light_code = self.hash4DState(next_waypoint,  current_state)
 
 
-        return action_code, nav_code, deadline, traffic_code, light_code
+        return action_code, nav_code, traffic_code, light_code

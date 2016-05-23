@@ -1,26 +1,18 @@
 import random
 from McHersheyHashMcHarshFace import HashFunction
 import pandas as pd
-from pandas.core import panelnd
-from pandas.core import panel4d
 import numpy as np
 import matplotlib.pyplot as plt
 
 class QTable(object):
     
     def __init__(self, alpha, gamma, explore_to_exploit_ratio):
-        rnd0=0*np.random.random_sample((4,100,512,2))
-        p4d = pd.Panel4D(rnd0)
+        rnd0=100+np.zeros((4,512,2))
+        p3d = pd.Panel(rnd0)
+        print "p3d: ",p3d.values
         
-        Panel5D = panelnd.create_nd_panel_factory(
-        klass_name   = 'Panel5D',
-        orders  = [ 'action', 'labels','items','major_axis','minor_axis'],
-        slices  = {'labels' : 'labels', 'items' : 'items','major_axis' : 'major_axis', 'minor_axis' : 'minor_axis'},
-        slicer  = pd.Panel4D,
-        stat_axis    = 2)
-
-        p5d = Panel5D(dict(AN = p4d,BF=p4d,CR=p4d,DL=p4d))
-        self.qtable=p5d
+        p4d = pd.Panel4D(dict(AN = p3d,BF=p3d,CR=p3d,DL=p3d))
+        self.qtable=p4d
         self.alpha=alpha
         self.gamma=gamma
         self.trial_count=0
@@ -33,8 +25,7 @@ class QTable(object):
         self.total_time=0
         self.trial_steps_df=pd.DataFrame(np.random.randint(1, size=(101,3)))
         pd.set_option("display.max_rows",200)
-        self.exploration_success=0.0
-        self.exploitation_success=0.0
+        self.success_rate=0.0
     
 
 
@@ -45,26 +36,26 @@ class QTable(object):
         #print "----- PRINT --trial_count:",self.trial_count, ",total_time:",self.total_time,",totalTime",totalTime
     
     
-    def update(self, next_waypoint, deadline, current_state, action, reward, next_state_value, next_state_deadline, next_state_waypoint, agent, env):
+    def update(self, next_waypoint, deadline, current_state, action, reward, next_state_value, next_state_waypoint, agent, env):
         hashF = HashFunction()
-        action_code,nav_code, deadline, traffic_code,light_code = hashF.hash5DState(action, next_waypoint, deadline, current_state)
-        prev_val = self.qtable.ix[action_code,nav_code, deadline, traffic_code,light_code]
+        action_code,nav_code, traffic_code,light_code = hashF.hash5DState(action, next_waypoint, current_state)
+        prev_val = self.qtable.ix[action_code,nav_code, traffic_code,light_code]
         
         #GEt Qvalues of possible next states
-        next_nav_code, next_deadline, next_traffic_code, next_light_code = hashF.hash4DState(next_state_waypoint, next_state_deadline, next_state_value)
+        next_nav_code, next_traffic_code, next_light_code = hashF.hash4DState(next_state_waypoint,  next_state_value)
             
         #Get Q values for all 4 possible next states.
-        self.next_qvalue[0]=self.qtable.ix['AN',next_nav_code, next_deadline, next_traffic_code,next_light_code]
-        self.next_qvalue[1]=self.qtable.ix['BF',next_nav_code, next_deadline, next_traffic_code,next_light_code]
-        self.next_qvalue[2]=self.qtable.ix['CR',next_nav_code, next_deadline, next_traffic_code,next_light_code]
-        self.next_qvalue[3]=self.qtable.ix['DL',next_nav_code, next_deadline, next_traffic_code,next_light_code]
+        self.next_qvalue[0]=self.qtable.ix['AN',next_nav_code,  next_traffic_code,next_light_code]
+        self.next_qvalue[1]=self.qtable.ix['BF',next_nav_code,  next_traffic_code,next_light_code]
+        self.next_qvalue[2]=self.qtable.ix['CR',next_nav_code,  next_traffic_code,next_light_code]
+        self.next_qvalue[3]=self.qtable.ix['DL',next_nav_code , next_traffic_code,next_light_code]
         next_max_qvalue=np.mean(self.next_qvalue)
 
         
         #Set new Q-Value for State, Action, based on  Reward
-        new_val=(1-self.alpha)*prev_val + self.alpha* (reward + self.gamma * next_max_qvalue)
+        new_val=(1-(1.0/self.trial_count))*prev_val + (1.0/self.trial_count)* (reward + self.gamma * next_max_qvalue)
         
-        self.qtable.ix[action_code,nav_code, deadline, traffic_code,light_code]=new_val
+        self.qtable.ix[action_code,nav_code,  traffic_code,light_code]=new_val
         
         agent_state = env.agent_states[agent]
         destination = agent_state['destination']
@@ -82,43 +73,37 @@ class QTable(object):
         if destination == location:
             #print "self.trial_count: ",self.trial_count, ", reached:\n",
             self.trial_steps_df.set_value(self.trial_count,1,(self.total_time - deadline))
-            if self.trial_count < self.exploration_trials:
-                self.exploration_success += 1
-            else:
-                self.exploitation_success += 1
-            
+            self.success_rate += 1
+        
             
         if self.trial_count == 99 and (destination == location or deadline== 0):
             #print " STEPS: : ",  self.trial_steps_df
-            print "Exploration to Exploitation Ratio:", self.exploration_ratio
-            print ",  Exploration Success Rate:", (self.exploration_success / self.exploration_trials)
-            print ",  Exploitation Success Rate:", (self.exploitation_success / self.exploitation_trials)
+            print "Success Rate:", self.success_rate
             print "Steps needed to reach target (Zero Means not reached), and Rewards Collected in each trial:\n", self.trial_steps_df
             
     
     
-    def get_next_action(self, next_waypoint, deadline, current_state):
+    def get_next_action(self, next_waypoint, deadline, current_state,simulated_annealing_counter):
 
-        if self.trial_count < self.exploration_trials: # explotation
-            return random.choice([None, 'forward', 'right', 'left'])
-        else: # exploitation
-            hashF = HashFunction()
-            nav_code, deadline, traffic_code,light_code = hashF.hash4DState(next_waypoint, deadline, current_state)
-            
-            #Get Q values for all 4 possible next states.
-            self.qvalue[0]=self.qtable.ix['AN',nav_code, deadline, traffic_code,light_code]
-            self.qvalue[1]=self.qtable.ix['BF',nav_code, deadline, traffic_code,light_code]
-            self.qvalue[2]=self.qtable.ix['CR',nav_code, deadline, traffic_code,light_code]
-            self.qvalue[3]=self.qtable.ix['DL',nav_code, deadline, traffic_code,light_code]
-            max_qvalue=np.argmax(self.qvalue)
-            
-            # Take the action that leads to best next state
-            # Add some randomization when still time to
-            #if(deadline > 10 and deadline % 5 == 0):
-            #    suggested_action=random.choice([None, 'forward', 'right', 'left'])
-            #else:
-            suggested_action=[None, 'forward', 'right', 'left'][max_qvalue]
+
+        hashF = HashFunction()
+        nav_code, traffic_code,light_code = hashF.hash4DState(next_waypoint, current_state)
         
+        #Get Q values for all 4 possible next states.
+        self.qvalue[0]=self.qtable.ix['AN',nav_code,  traffic_code,light_code]
+        self.qvalue[1]=self.qtable.ix['BF',nav_code,  traffic_code,light_code]
+        self.qvalue[2]=self.qtable.ix['CR',nav_code, traffic_code,light_code]
+        self.qvalue[3]=self.qtable.ix['DL',nav_code, traffic_code,light_code]
+        max_qvalue=np.argmax(self.qvalue)
         
+        # Take the action that leads to best next state
+        # Add some randomization when still time to
+        
+        suggested_action=[None, 'forward', 'right', 'left'][max_qvalue]
+
+        if simulated_annealing_counter == 0:
+            print " ------- simulated_annealing ---------"
+            suggested_action=random.choice([None, 'forward', 'right', 'left'])
+            simulated_annealing_counter=4
         
         return suggested_action
