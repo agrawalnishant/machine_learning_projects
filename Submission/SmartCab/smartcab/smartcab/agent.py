@@ -21,11 +21,12 @@ class LearningAgent(Agent):
         # TODO: Initialize any additional variables here
         alpha=0.5
         gamma=0.002
+        add_total=0
+        add_total=False
+        self.success=0
+        self.total=0
         self.simulated_annealing_counter=5
-        
-        for key, value in kwargs.iteritems():
-            print "%s = %s" %(key,value)
-            self.qt=QTable(alpha,gamma,value)
+        self.qt=QTable(alpha,gamma)
         print '-'*80
     
     
@@ -57,6 +58,16 @@ class LearningAgent(Agent):
 
         # Execute action and get reward
         reward = self.env.act(self, action)
+        
+        add_total = False
+        if deadline == 0:
+            add_total = True
+        if reward > 10:
+            self.success += 1
+            add_total = True
+        if add_total:
+            self.total += 1
+            print("success: {} / {}".format(self.success, self.total))
 
         # TODO: Learn policy based on state, action, reward
         next_state_value=self.env.sense(self)

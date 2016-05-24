@@ -3,11 +3,12 @@ from McHersheyHashMcHarshFace import HashFunction
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from sklearn.svm import SVR
 
 class QTable(object):
     
-    def __init__(self, alpha, gamma, explore_to_exploit_ratio):
-        rnd0=100+np.zeros((4,512,2))
+    def __init__(self, alpha, gamma):
+        rnd0=5+np.zeros((4,512,2))
         p3d = pd.Panel(rnd0)
         print "p3d: ",p3d.values
         
@@ -16,10 +17,6 @@ class QTable(object):
         self.alpha=alpha
         self.gamma=gamma
         self.trial_count=0
-        self.exploration_ratio=explore_to_exploit_ratio
-        self.exploration_trials=int( self.exploration_ratio * 100)
-        self.exploitation_trials = 100 - self.exploration_trials
-        print "explore:", self.exploration_trials,", exploit:",self.exploitation_trials
         self.qvalue=np.zeros(4)
         self.next_qvalue=np.zeros(4)
         self.total_time=0
@@ -79,8 +76,13 @@ class QTable(object):
         if self.trial_count == 99 and (destination == location or deadline== 0):
             #print " STEPS: : ",  self.trial_steps_df
             print "Success Rate:", self.success_rate
-            print "Steps needed to reach target (Zero Means not reached), and Rewards Collected in each trial:\n", self.trial_steps_df
-            
+            #print "Steps needed to reach target (Zero Means not reached), and Rewards Collected in each trial:\n", self.trial_steps_df
+            #print "Q-Table", self.qtable.values
+
+
+
+
+
     
     
     def get_next_action(self, next_waypoint, deadline, current_state,simulated_annealing_counter):
@@ -103,7 +105,7 @@ class QTable(object):
 
         if simulated_annealing_counter == 0:
             print " ------- simulated_annealing ---------"
-            suggested_action=random.choice([None, 'forward', 'right', 'left'])
-            simulated_annealing_counter=4
+            suggested_action=random.choice([ 'forward', 'right', 'left'])
+            simulated_annealing_counter=5
         
         return suggested_action
