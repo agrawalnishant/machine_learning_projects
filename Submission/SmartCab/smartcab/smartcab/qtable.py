@@ -8,12 +8,13 @@ from sklearn.svm import SVR
 class QTable(object):
     
     def __init__(self, alpha, gamma):
-        rnd0=5+np.zeros((4,512,2))
+        rnd0= 0.5+np.zeros((4,64,2))
         p3d = pd.Panel(rnd0)
-        print "p3d: ",p3d.values
+        #print "p3d: ",p3d.values
         
         p4d = pd.Panel4D(dict(AN = p3d,BF=p3d,CR=p3d,DL=p3d))
         self.qtable=p4d
+        #print "self.qtable: ",self.qtable.values
         self.alpha=alpha
         self.gamma=gamma
         self.trial_count=0
@@ -67,15 +68,15 @@ class QTable(object):
         #print "self.trial_count: ",self.trial_count, " , reward: ", reward,", Prev reward:", prev_reward, ", new_reward:",new_reward
         
         #Calculate success rate during Exploration and Exploitation phase
-        if destination == location:
+        #if destination == location:
             #print "self.trial_count: ",self.trial_count, ", reached:\n",
-            self.trial_steps_df.set_value(self.trial_count,1,(self.total_time - deadline))
-            self.success_rate += 1
+            #self.trial_steps_df.set_value(self.trial_count,1,(self.total_time - deadline))
+            #self.success_rate += 1
         
             
-        if self.trial_count == 99 and (destination == location or deadline== 0):
+            #if self.trial_count == 99 and (destination == location or deadline== 0):
             #print " STEPS: : ",  self.trial_steps_df
-            print "Success Rate:", self.success_rate
+            #print "Success Rate:", self.success_rate
             #print "Steps needed to reach target (Zero Means not reached), and Rewards Collected in each trial:\n", self.trial_steps_df
             #print "Q-Table", self.qtable.values
 
@@ -85,7 +86,7 @@ class QTable(object):
 
     
     
-    def get_next_action(self, next_waypoint, deadline, current_state,simulated_annealing_counter):
+    def get_next_action(self, next_waypoint, deadline, current_state):
 
 
         hashF = HashFunction()
@@ -103,9 +104,5 @@ class QTable(object):
         
         suggested_action=[None, 'forward', 'right', 'left'][max_qvalue]
 
-        if simulated_annealing_counter == 0:
-            print " ------- simulated_annealing ---------"
-            suggested_action=random.choice([ 'forward', 'right', 'left'])
-            simulated_annealing_counter=5
-        
+
         return suggested_action

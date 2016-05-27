@@ -17,20 +17,20 @@ class HashFunction(object):
         if current_state_df.iloc[1,1] == None:
             oncoming_code=0
         elif current_state_df.iloc[1,1] == 'forward':
-            oncoming_code=32
+            oncoming_code=16
         elif current_state_df.iloc[1,1] == 'right':
-            oncoming_code=64
+            oncoming_code=32
         elif current_state_df.iloc[1,1] == 'left':
-            oncoming_code=96
+            oncoming_code=48
         
         if current_state_df.iloc[2,1] == None:
             right_code=0
         elif current_state_df.iloc[2,1] == 'forward':
-            right_code=8
+            right_code=4
         elif current_state_df.iloc[2,1] == 'right':
-            right_code=16
+            right_code=8
         elif current_state_df.iloc[2,1] == 'left':
-            right_code=24
+            right_code=12
         
         if current_state_df.iloc[3,1] == None:
             left_code=0
