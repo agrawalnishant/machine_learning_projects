@@ -108,10 +108,13 @@ class LearningAgent(Agent):
                     for item3, frame3 in frame2.iteritems():
                         for frame4 in frame3.values:
                             self.total_cell_count +=1
-                            print("f4:", frame4)
+                            #print("f4:", frame4)
                             if frame4 != 0.5:
-                                self.printAction(item)
+                                print "\n"
                                 self.printNav(item2)
+                                self.printTraffic(item3)
+                                self.printAction(item)
+                                print "Q-Val: {0:.5f}".format(frame4)
                                 self.filled_cell_count+=1
             print '-'*80
             print "updated cells: ", self.filled_cell_count, ", self.total_cell_count:",self.total_cell_count, ", updated_func_counter:",self.updated_func_counter
@@ -125,24 +128,27 @@ class LearningAgent(Agent):
         self.updated_func_counter += 1
 
     def printAction(self, code):
+        print '|',
         if code=='AN':
-            print "Action: None"
+            print "Action: None",
         elif code=='BF':
-            print "Action: Forward"
+            print "Action: Forward",
         elif code=='CR':
-            print "Action: Right"
+            print "Action: Right",
         elif code=='DL':
-            print "Action: Left"
+            print "Action: Left",
+        print '|',
 
     def printNav(self, code):
+        print '|',
         if code==0:
-            print "Nav: None"
+            print "Nav: None",
         elif code==1:
-            print "Nav: Forward"
+            print "Nav: Forward",
         elif code==2:
-            print "Nav: Right"
+            print "Nav: Right",
         elif code==3:
-            print "Nav: Left"
+            print "Nav: Left",
 
     def printTraffic(self, code):
         left_mask=0b000011
@@ -153,7 +159,35 @@ class LearningAgent(Agent):
         right_filtered = code & right_mask
         oncoming_filtered = code & oncoming_mask
 
-        
+        print '| Traffic state: ',
+        if left_filtered == 0:
+            print "Left: None",
+        elif left_filtered == 1:
+            print "Left: Forward",
+        elif left_filtered == 2:
+            print "Left: Right",
+        elif left_filtered == 3:
+            print "Left: Left",
+        print '--',
+
+        if right_filtered == 0:
+            print "Right: None",
+        elif right_filtered == 4:
+            print "Right: Forward",
+        elif right_filtered == 8:
+            print "Right: Right",
+        elif right_filtered == 12:
+            print "Right: Left",
+        print '--',
+
+        if oncoming_filtered == 0:
+            print "Oncoming: None",
+        elif oncoming_filtered == 16:
+            print "Oncoming: Forward",
+        elif oncoming_filtered == 32:
+            print "Oncoming: Right",
+        elif oncoming_filtered == 48:
+            print "Oncoming: Left",
 
 
 def run():
