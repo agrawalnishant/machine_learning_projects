@@ -81,7 +81,7 @@ class LearningAgent(Agent):
         if self.epsilon > self.min_epsilon and deadline!=0 and deadline != self.eps_freq and math.floor(deadline % self.eps_freq ) == 0.0:
             #self.epsilon_reset_counter += 1
             action = random.choice([None, 'forward', 'left', 'right'])
-            print "\nanneleate now.", "self.epsilon:",self.epsilon, ", action: ",action, ", deadline:", deadline, "\n"
+            print "annealing now.", "self.epsilon:",self.epsilon, ", action: ",action, ", deadline:", deadline
 
         else:
             #print "self.counter: ", self.counter, ", multiplier:", (self.counter * self.epsilon)
@@ -101,23 +101,25 @@ class LearningAgent(Agent):
             self.total += 1
             print("success: {} / {}".format(self.success, self.total))
                 
-        if self.total == 20:
-            print "\tself.alpha:", self.alpha, "self.gamma:", self.gamma,", self.epsilon:",self.epsl,", success:", self.success
+        if self.total == 100:
+            
             for item, frame in self.qt.qtable.iteritems():
                 for item2, frame2 in frame.iteritems():
                     for item3, frame3 in frame2.iteritems():
-                        for frame4 in frame3.values:
+                        for item4, frame4 in frame3.iteritems():
                             self.total_cell_count +=1
                             #print("f4:", frame4)
-                            if frame4 != 0.5:
-                                print "\n"
+                            if frame4 != 0.0:
+                                #print "\n"
                                 self.printNav(item2)
                                 self.printTraffic(item3)
+                                self.printTrafficLight(item4)
                                 self.printAction(item)
                                 print "Q-Val: {0:.5f}".format(frame4)
                                 self.filled_cell_count+=1
             print '-'*80
             print "updated cells: ", self.filled_cell_count, ", self.total_cell_count:",self.total_cell_count, ", updated_func_counter:",self.updated_func_counter
+            print "self.alpha:", self.alpha, "self.gamma:", self.gamma,", self.epsilon:",self.epsl,", success:", self.success
             print '_'*80
                         #    print '_'*20
         # TODO: Learn policy based on state, action, reward
@@ -168,7 +170,7 @@ class LearningAgent(Agent):
             print "Left: Right",
         elif left_filtered == 3:
             print "Left: Left",
-        print '--',
+        print '-+-',
 
         if right_filtered == 0:
             print "Right: None",
@@ -178,7 +180,7 @@ class LearningAgent(Agent):
             print "Right: Right",
         elif right_filtered == 12:
             print "Right: Left",
-        print '--',
+        print '-+-',
 
         if oncoming_filtered == 0:
             print "Oncoming: None",
@@ -188,6 +190,14 @@ class LearningAgent(Agent):
             print "Oncoming: Right",
         elif oncoming_filtered == 48:
             print "Oncoming: Left",
+
+    def printTrafficLight(self, code):
+        print '| ',
+        if code == 0:
+            print "Light: Red",
+        else:
+            print "Light: Green",
+
 
 
 def run():
@@ -207,7 +217,7 @@ def run():
 
                 # Now simulate it
                 sim = Simulator(e, update_delay=0.0)  # reduce update_delay to speed up simulation
-                sim.run(n_trials=20)  # press Esc or close pygame window to quit
+                sim.run(n_trials=100)  # press Esc or close pygame window to quit
 
 
 

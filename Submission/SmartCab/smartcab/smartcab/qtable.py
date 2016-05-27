@@ -8,7 +8,7 @@ from sklearn.svm import SVR
 class QTable(object):
     
     def __init__(self, alpha, gamma):
-        rnd0= 0.5+np.zeros((4,64,2))
+        rnd0= 0.0+np.zeros((4,64,2))
         p3d = pd.Panel(rnd0)
         #print "p3d: ",p3d.values
         
