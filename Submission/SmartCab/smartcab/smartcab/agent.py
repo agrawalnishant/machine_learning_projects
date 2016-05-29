@@ -11,6 +11,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math
 
+global stats_df
+global stats_df_counter
 
 class LearningAgent(Agent):
     """An agent that learns to drive in the smartcab world."""
@@ -32,6 +34,9 @@ class LearningAgent(Agent):
         self.filled_cell_count=0
         self.total_cell_count=0
         self.updated_func_counter=0
+        global stats_df_counter
+        global stats_df
+        
         
         for key, value in kwargs.iteritems():
             print "%s = %s" %(key,value)
@@ -61,6 +66,8 @@ class LearningAgent(Agent):
 
     
     def update(self, t):
+        global stats_df
+        global stats_df_counter
         self.counter+=1
         # Gather inputs
         self.next_waypoint = self.planner.next_waypoint()  # from route planner, also displayed by simulator
@@ -119,7 +126,9 @@ class LearningAgent(Agent):
                                 self.filled_cell_count+=1
             print '-'*80
             print "updated cells: ", self.filled_cell_count, ", self.total_cell_count:",self.total_cell_count, ", updated_func_counter:",self.updated_func_counter
-            print "self.alpha:", self.alpha, "self.gamma:", self.gamma,", self.epsilon:",self.epsl,", success:", self.success
+            print "self.alpha:", self.alpha, "self.gamma:", self.gamma,", self.epsilon:",self.epsl,", success:", self.success, " in steps: ", deadline
+            stats_df.loc[stats_df_counter]=[self.alpha, self.gamma,self.epsl, self.success,  deadline]
+            stats_df_counter += 1
             print '_'*80
                         #    print '_'*20
         # TODO: Learn policy based on state, action, reward
@@ -202,6 +211,10 @@ class LearningAgent(Agent):
 
 def run():
     """Run the agent for a finite number of trials."""
+    global stats_df
+    global stats_df_counter
+    stats_df=pd.DataFrame(columns=['alpha','gamma','epsilon','success', 'deadline'])
+    stats_df_counter=0
 
     ## Run with diff exploration to exploitation ratio
     alphas = [0.7, 0.5,0.3]
@@ -218,7 +231,11 @@ def run():
                 # Now simulate it
                 sim = Simulator(e, update_delay=0.0)  # reduce update_delay to speed up simulation
                 sim.run(n_trials=100)  # press Esc or close pygame window to quit
-
+    print stats_df
+    ax=stats_df.plot(kind='scatter', x='alpha', y='success',color='blue', label='alpha-success');
+    stats_df.plot(kind='scatter', x='gamma', y='success',color='green', label='gamma-success',ax=ax);
+    stats_df.plot(kind='scatter', x='epsilon', y='success',color='red', label='epsilon-success',ax=ax);
+    plt.show()
 
 
 
