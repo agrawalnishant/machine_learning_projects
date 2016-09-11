@@ -3,6 +3,7 @@
 *.mat
 *.m
 *.pickle
+*.DS_Store
 Submission/Street_View_House_Numbers/.ipynb_checkpoints/1_notmnist-checkpoint.ipynb
 
 Submission/Street_View_House_Numbers/basic/.ipynb_checkpoints/1_notmnist-checkpoint.ipynb
