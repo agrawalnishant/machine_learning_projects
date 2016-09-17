@@ -1,5 +1,6 @@
-# machine_learning_projects
-Projects based on Machine Learning.
+##machine learning projects
+
+Machine Learning projects, based on Python frameworks, like Scikit-learn. Pandas, Numpy, Pygame and TensorFlow.
 
 These include following:
 
