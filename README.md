@@ -4,5 +4,5 @@ Machine Learning projects, based on Python frameworks, like Scikit-learn. Pandas
 
 These include following:
 
-*  [Udacity Machine Learning Nano Degree Projects](https://github.com/agrawalnishant/machine_learning_projects/tree/master/Submission)
+*  Submission [Udacity Machine Learning Nano Degree Projects](https://github.com/agrawalnishant/machine_learning_projects/tree/master/Submission)
 
